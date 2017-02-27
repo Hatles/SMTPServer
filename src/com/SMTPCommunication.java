@@ -1,6 +1,12 @@
 package com;
 
+import com.factory.CommunicationFactory;
+import com.method.Method;
+
+import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,26 +15,76 @@ import java.util.List;
 public class SMTPCommunication extends CommunicationRunnable
 {
     private String name;
+    private boolean connected;
 
-    public SMTPCommunication(Server server, Socket socket) {
+    private Method connectionMethod;
+    private List<Method> methods;
+
+    public SMTPCommunication(Server server, Socket socket, CommunicationFactory factory)
+    {
         super(server, socket);
+        methods = new ArrayList<>();
+        factory.buildCommunication(this);
+    }
+
+    @Override
+    protected void onStart() {
+        try {
+            this.send(this.getServer().getServerName());
+        } catch (IOException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onClientCommunication(List<String> lines)
     {
-
+        String command = Utils.getCommand(lines);
+        if(connected)
+            this.processConnecting(command, lines);
+        else
+            this.processRequest(command,  lines);
     }
 
-    @Override
-    protected void closing()
+    private void processConnecting(String command, List<String> lines)
     {
+        try
+        {
+            this.connectionMethod.process(command, lines);
+        }
+        catch (NullPointerException e)
+        {
+            log(e.getMessage());
+            e.printStackTrace();
+            this.close();
+        }
+    }
 
+    private void processRequest(String command, List<String> lines)
+    {
+        for (Method method : methods) {
+            if(method.process(command, lines))
+                return;
+        }
+
+        this.onUnkownCommand(command, lines);
+    }
+
+    private void onUnkownCommand(String command, List<String> lines)
+    {
+        log("unknown command received from client : " + command);
+        this.close();
     }
 
     protected String getTag()
     {
         return "[Client-"+id+"-"+name+"]";
+    }
+
+    @Override
+    protected void onClose() {
+
     }
 
     public String getName() {
@@ -37,5 +93,46 @@ public class SMTPCommunication extends CommunicationRunnable
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public Method getConnectionMethod() {
+        return connectionMethod;
+    }
+
+    public void setConnectionMethod(Method connectionMethod) {
+        this.connectionMethod = connectionMethod;
+    }
+
+    public List<Method> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(List<Method> methods) {
+        this.methods = methods;
+    }
+
+    public void addMethod(Method method)
+    {
+        method.setCommunication(this);
+        this.methods.add(method);
+    }
+
+    public void removeMethod(Method method)
+    {
+        this.methods.remove(method);
+    }
+
+    public void clientConnected(String name)
+    {
+        this.setName(name);
+        this.setConnected(true);
     }
 }

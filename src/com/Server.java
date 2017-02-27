@@ -57,6 +57,11 @@ public class Server extends Observable
 	public void stop()
 	{
 		accept.stop();
+		for (CommunicationRunnable client : clients)
+		{
+			client.stop();
+		}
+
 		try
 		{
 			socket.close();
@@ -140,9 +145,9 @@ public class Server extends Observable
 	public void close()
 	{
 		log("Deconection du serveur");
-		this.accept.onClose();
+		this.accept.close();
 		for (CommunicationRunnable client : clients) {
-			client.onClose();
+			client.close();
 		}
 		log("Tous les clients ont ete deconectés");
 	}

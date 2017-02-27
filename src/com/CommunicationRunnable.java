@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by kifkif on 15/02/2017.
  */
-abstract class CommunicationRunnable extends ServerRunnable
+abstract class CommunicationRunnable extends ServerRunnable implements Communication
 {
     private static int count = 0;
 
@@ -16,6 +16,8 @@ abstract class CommunicationRunnable extends ServerRunnable
 
     private BufferedReader in;
     private DataOutputStream out;
+
+    private boolean firstLoop;
 
     int id;
 
@@ -25,6 +27,7 @@ abstract class CommunicationRunnable extends ServerRunnable
         this.socket = socket;
         id = count++;
         this.initBuffers();
+        firstLoop = true;
     }
 
     public void initBuffers()
@@ -36,36 +39,49 @@ abstract class CommunicationRunnable extends ServerRunnable
         {
             e.printStackTrace();
             log(e.getMessage());
-            onClose();
+            close();
         }
     }
 
     @Override
     protected void loop()
     {
+        if(firstLoop)
+        {
+            onStart();
+            firstLoop = false;
+        }
+
         try
         {
             String line;
             List<String> lines = new ArrayList<String>();
 
-            while((line = in.readLine())!=null && line.length() > 0)
+            log("waiting message");
+            while((line = in.readLine()) != null && line.length() > 0)
             {
                 lines.add(line);
             }
 
             if(lines.size() > 0)
+            {
+                log("message received : "+lines.get(0)+"...");
                 onClientCommunication(lines);
+            }
 
         } catch (IOException e)
         {
             //e.printStackTrace();
             log(e.getMessage());
+            this.stop();
         }
     }
 
+    protected abstract void onStart();
+
     protected abstract void onClientCommunication(List<String> lines);
 
-    protected void log(String m)
+    public void log(String m)
     {
         server.log(this.getTag() +" : "+ m);
     }
@@ -81,10 +97,10 @@ abstract class CommunicationRunnable extends ServerRunnable
         return "[Client-"+id+"]";
     }
 
-    public void onClose()
+    public void close()
     {
         log("closing");
-        this.closing();
+        this.onClose();
         try
         {
             socket.close();
@@ -94,12 +110,12 @@ abstract class CommunicationRunnable extends ServerRunnable
             e.printStackTrace();
         }
         server.removeClient(this);
-        this.stop();
+        log("closed");
     }
 
-    protected abstract void closing();
+    protected abstract void onClose();
 
-    protected void writeData(File file) throws IOException
+    public void writeData(File file) throws IOException
     {
         log("Start log data");
         FileInputStream fea;
@@ -121,24 +137,26 @@ abstract class CommunicationRunnable extends ServerRunnable
         log("End log data");
     }
 
-    protected void writeLine(String message) throws IOException
+    public void writeLine(String message) throws IOException
     {
         write(message+"\r\n");//CR LF
     }
 
-    protected void write(String message) throws IOException
+    public void write(String message) throws IOException
     {
         out.writeBytes(message);
     }
 
-    protected void send(String message) throws IOException
+    public void send(String message) throws IOException
     {
-        writeLine(message);
+        if(message != null && !message.equals(""))
+            writeLine(message);
+        writeLine("");
         out.flush();
         log("sending message");
     }
 
-    protected void send() throws IOException
+    public void send() throws IOException
     {
         send("");
     }

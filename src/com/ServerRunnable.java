@@ -29,16 +29,13 @@ public abstract class ServerRunnable implements Runnable {
 		return server;
 	}
 	
-	public void stop()
+	public synchronized void stop()
 	{
+        this.close();
 		this.running = false;
 	}
 	
 	protected abstract String getTag();
 
-	public synchronized final void close() {
-		onClose();
-	}
-
-	public abstract void onClose();
+	public abstract void close();
 }

@@ -55,7 +55,7 @@
 //			log(e.getMessage());
 //		}
 //
-//		onClose();
+//		close();
 //	}
 //
 //	private void applyRequest(List<String> lines)
@@ -114,7 +114,7 @@
 //				writeLine("Content-Length: " + (file.length()));
 //				writeLine("Content-Type: " + Utils.getContentType(file));
 //				writeLine("Set-Cookie: clientID=123513486; path=/ ;");
-//				writeLine("Connection: onClose");
+//				writeLine("Connection: close");
 //				writeLine("");
 //				log("End log headers");
 //				writeData(file);
@@ -159,9 +159,9 @@
 //		out.writeBytes(message+"\r\n");//CR LF
 //	}
 //
-//	private void onClose()
+//	private void close()
 //	{
-//		log("onClose client");
+//		log("close client");
 //		try
 //		{
 //			socket.close();
@@ -210,7 +210,7 @@
 //			writeLine("HTTP/1.0 "+code+" "+title);
 //			writeLine("Date: "+Utils.getDate());
 //			writeLine("Server: "+this.server.getServerName());
-//			writeLine("Connection: onClose");
+//			writeLine("Connection: close");
 //			writeLine("Content-Length: " + (file.length()));
 //			writeLine("Content-Type: " + Utils.getContentType(file));
 //			writeLine("");
@@ -233,7 +233,7 @@
 //			writeLine("HTTP/1.0 "+code+" "+title);
 //			writeLine("Date: "+Utils.getDate());
 //			writeLine("Server: "+this.server.getServerName());
-//			writeLine("Connection: onClose");
+//			writeLine("Connection: close");
 //			writeLine("Content-Length: " + (page.getBytes().length));
 //			writeLine("Content-Type: " + "text/html");
 //			writeLine("");

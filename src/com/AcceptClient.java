@@ -1,4 +1,6 @@
 package com;
+import com.factory.SMTPCommunicationFactory;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -19,7 +21,7 @@ public class AcceptClient extends ServerRunnable
 	                //log("Le client numéro "+nbrclient+ " est connecté !");
 	                nbrclient++;
 	                
-	                CommunicationRunnable client = new SMTPCommunication(this.server, socket);
+	                CommunicationRunnable client = new SMTPCommunication(this.server, socket, new SMTPCommunicationFactory());
 	                server.addClient(client);
 	                Thread t = new Thread(client);
 	                t.setDaemon(true);
@@ -37,7 +39,7 @@ public class AcceptClient extends ServerRunnable
 		}
 
 	@Override
-	public void onClose() {
-		this.stop();
+	public void close() {
+        log("closing connection thread");
 	}
 }

@@ -4,6 +4,7 @@ import com.method.Method;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 public class Utils
@@ -141,4 +142,9 @@ public class Utils
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 	    return dateFormat.format(calendar.getTime());
 	}
+
+    public static String getCommand(List<String> lines) {
+		String[] words = lines.get(0).split(" ");
+		return words[0].toUpperCase();
+    }
 }
