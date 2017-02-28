@@ -79,7 +79,7 @@ public class SMTPCommunication extends CommunicationRunnable
     private void onUnkownCommand(String command, List<String> lines)
     {
         log("unknown command received from client : " + command);
-        this.close();
+        //this.close();
     }
 
     protected String getTag()
