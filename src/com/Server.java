@@ -16,7 +16,7 @@ public class Server extends Observable
 	private ServerSocket socket;
 	private boolean running;
 	private File rootDir;
-	
+
 	private List<CommunicationRunnable> clients;
 	
 	private AcceptClient accept;
@@ -31,7 +31,7 @@ public class Server extends Observable
 		accept = new AcceptClient(this);
 		clients = new ArrayList<CommunicationRunnable>();
 		name = "SMTP_ToupieLicorne_v0.95";
-		rootDir = new File(System.getProperty("user.home")+"/"+name);
+		rootDir = new File(System.getProperty("user.home"));
 
 		dateFormat = new SimpleDateFormat("[HH:mm:ss]");
 //		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -99,7 +99,7 @@ public class Server extends Observable
 	public void setRootDir(File rootDir)
 	{
 		this.rootDir = rootDir;
-		this.log("Root dir set to : " + rootDir.getAbsolutePath());
+		this.log("Messages file dir set to : " + rootDir.getAbsolutePath());
 	}
 	
 	public void addClient(CommunicationRunnable client)

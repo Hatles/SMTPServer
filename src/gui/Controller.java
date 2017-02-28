@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Controller implements Initializable
@@ -98,14 +99,14 @@ public class Controller implements Initializable
 	
 	public void setDir(Stage primaryStage)
 	{
-		DirectoryChooser chooser = new DirectoryChooser();
-		chooser.setTitle("Choose root directory");
-		File defaultDirectory = new File(System.getProperty("user.home"));
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Choose messages file");
+		File defaultDirectory = server.getRootDir();
 		chooser.setInitialDirectory(defaultDirectory);
-		File selectedDirectory = chooser.showDialog(primaryStage);
+		File selectedFile = chooser.showOpenDialog(primaryStage);
 		
-		if(selectedDirectory != null)
-			server.setRootDir(selectedDirectory);
+		if(selectedFile != null)
+			server.setRootDir(selectedFile);
 	}
 
 	public void stopServer()
