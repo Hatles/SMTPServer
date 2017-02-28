@@ -13,11 +13,11 @@ public abstract class SMTPMethod extends MethodCommand
     }
 
     public void sendOK(String message) throws IOException {
-        this.sendResponse("OK ", message);
+        this.sendResponse("+OK ", message);
     }
 
     public void sendERR(String message) throws IOException {
-        this.sendResponse("ERR ", message);
+        this.sendResponse("-ERR ", message);
     }
 
     public void sendResponse(String response, String message) throws IOException {
