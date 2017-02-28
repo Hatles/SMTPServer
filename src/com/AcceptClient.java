@@ -1,4 +1,5 @@
 package com;
+import com.factory.CommunicationFactory;
 import com.factory.SMTPCommunicationFactory;
 
 import java.io.IOException;
@@ -8,9 +9,11 @@ public class AcceptClient extends ServerRunnable
 {
 	   private Socket socket;
 	   private int nbrclient = 1;
+	   private CommunicationFactory communicationFactory;
 	   
 		public AcceptClient(Server s){
 			super(s);
+			communicationFactory = new SMTPCommunicationFactory();
 		}
 
 		@Override
@@ -21,7 +24,7 @@ public class AcceptClient extends ServerRunnable
 	                //log("Le client numéro "+nbrclient+ " est connecté !");
 	                nbrclient++;
 	                
-	                CommunicationRunnable client = new SMTPCommunication(this.server, socket, new SMTPCommunicationFactory());
+	                CommunicationRunnable client = new SMTPCommunication(this.server, socket, communicationFactory);
 	                server.addClient(client);
 	                Thread t = new Thread(client);
 	                t.setDaemon(true);

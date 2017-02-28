@@ -20,14 +20,19 @@ public abstract class MethodCommand extends Method
 
     public boolean process(String command, List<String> lines)
     {
-        if(command.toUpperCase().equals(this.command))
+        log("incomming command : "+command);
+        log("mtethod command : "+this.command);
+        if(command.equals(this.command))
         {
             if(!this.processCommand(lines))
                 log("error process command");
             return true;
         }
         else
+        {
+            log("method not match");
             return false;
+        }
     }
 
     public abstract boolean processCommand(List<String> lines);

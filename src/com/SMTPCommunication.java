@@ -24,6 +24,7 @@ public class SMTPCommunication extends CommunicationRunnable
     {
         super(server, socket);
         methods = new ArrayList<>();
+        connected = false;
         factory.buildCommunication(this);
     }
 
@@ -41,7 +42,7 @@ public class SMTPCommunication extends CommunicationRunnable
     protected void onClientCommunication(List<String> lines)
     {
         String command = Utils.getCommand(lines);
-        if(connected)
+        if(!connected)
             this.processConnecting(command, lines);
         else
             this.processRequest(command,  lines);
@@ -49,20 +50,24 @@ public class SMTPCommunication extends CommunicationRunnable
 
     private void processConnecting(String command, List<String> lines)
     {
-        try
+        log("try process connecting");
+
+        if(this.connectionMethod != null)
         {
             this.connectionMethod.process(command, lines);
         }
-        catch (NullPointerException e)
+        else
         {
-            log(e.getMessage());
-            e.printStackTrace();
+            log("connection method null");
+//            log(e.getMessage());
+//            e.printStackTrace();
             this.close();
         }
     }
 
     private void processRequest(String command, List<String> lines)
     {
+        log("try process connecting");
         for (Method method : methods) {
             if(method.process(command, lines))
                 return;
@@ -108,6 +113,7 @@ public class SMTPCommunication extends CommunicationRunnable
     }
 
     public void setConnectionMethod(Method connectionMethod) {
+        connectionMethod.setCommunication(this);
         this.connectionMethod = connectionMethod;
     }
 

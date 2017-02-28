@@ -25,7 +25,7 @@ public class ConnectionMethod extends MethodCommand
     @Override
     public boolean processCommand(List<String> lines)
     {
-
+        log(lines.get(0));
         return false;
     }
 }
