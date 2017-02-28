@@ -23,7 +23,7 @@ public abstract class Method implements Communication
 		this.communication = communication;
 	}
 
-	protected abstract String onError();
+//	protected abstract String onError();
 
 	public abstract boolean process(String command, List<String> lines);
 

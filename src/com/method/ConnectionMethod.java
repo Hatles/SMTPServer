@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by kifkif on 16/02/2017.
  */
-public class ConnectionMethod extends MethodCommand
+public class ConnectionMethod extends SMTPMethod
 {
     private static int tryLimit = 3;
 
@@ -17,10 +17,10 @@ public class ConnectionMethod extends MethodCommand
         super("APOP");
     }
 
-    @Override
-    protected String onError() {
-        return "Error connection";
-    }
+//    @Override
+//    protected String onError() {
+//        return "Error connection";
+//    }
 
     @Override
     public boolean processCommand(List<String> lines)

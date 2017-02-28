@@ -26,11 +26,12 @@ import observer.Observer;
 public class JServer extends Application {
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    
+    private int port = 25;
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Server Web");
+        this.primaryStage.setTitle("Serveur SMTP");
         
         showPersonOverview();
 	}
@@ -49,7 +50,7 @@ public class JServer extends Application {
             Controller controller = loader.getController();
             TextArea t = controller.getTextArea();
             
-            Server server = new Server(1026);
+            Server server = new Server(port);
     		server.addObserver(new Observer(){
     			@Override
     			public void update(Observable observable, Object o)

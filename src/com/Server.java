@@ -30,8 +30,8 @@ public class Server extends Observable
 		running = false;
 		accept = new AcceptClient(this);
 		clients = new ArrayList<CommunicationRunnable>();
-		rootDir = new File(System.getProperty("user.home"));
-		name = "ToupieLicorne v0.95";
+		name = "SMTP_ToupieLicorne_v0.95";
+		rootDir = new File(System.getProperty("user.home")+"/"+name);
 
 		dateFormat = new SimpleDateFormat("[HH:mm:ss]");
 //		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
