@@ -52,7 +52,7 @@ public class Stockage
                 JSONArray messageList = (JSONArray) jsonUser.get("messages");
                 List<String> messages = new ArrayList<>();
                 for (String message : (Iterable<String>) messageList) {
-                    messages.add(message);
+                    messages.add(message.replaceAll("<CR>", "\r").replaceAll("<LF>", "\n"));
                 }
 
                 User user = new User(name, control, messages);
