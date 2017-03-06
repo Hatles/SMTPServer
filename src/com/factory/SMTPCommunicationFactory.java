@@ -1,9 +1,7 @@
 package com.factory;
 
 import com.SMTPCommunication;
-import com.method.ConnectionMethod;
-import com.method.Method;
-import com.method.QuitMethod;
+import com.method.*;
 
 import java.util.List;
 
@@ -17,6 +15,8 @@ public class SMTPCommunicationFactory implements CommunicationFactory {
     {
         communication.setConnectionMethod(new ConnectionMethod());
         communication.addMethod(new QuitMethod());
+        communication.addMethod(new StatMethod());
+        communication.addMethod(new RetrMethod());
 //        communication.addMethod(new ConnectionMethod());
     }
 }
