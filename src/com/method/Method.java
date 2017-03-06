@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class Method implements Communication
 {
-	protected Communication communication;
+	protected SMTPCommunication communication;
 
 	public Method()
 	{
