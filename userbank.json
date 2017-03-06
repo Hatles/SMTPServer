@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "name": "toto",
+      "control": "toto",
+      "messages": [
+        "message 1",
+        "message 2",
+        "message 3"
+      ]
+    },
+    {
+      "name": "etienne",
+      "control": "etienne",
+      "messages": [
+        "message 1",
+        "message 2"
+      ]
+    },
+    {
+      "name": "coco",
+      "control": "coco",
+      "messages": [
+        "message 1",
+        "message 3"
+      ]
+    }
+  ]
+}
