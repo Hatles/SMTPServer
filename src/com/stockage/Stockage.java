@@ -45,16 +45,20 @@ public class Stockage
 
             JSONObject jsonObject = (JSONObject) obj;
 
-            String name = (String) jsonObject.get("name");
-            String control = (String) jsonObject.get("control");
-            JSONArray messageList = (JSONArray) jsonObject.get("messages");
-            List<String> messages = new ArrayList<>();
-            for (String message : (Iterable<String>) messageList) {
-                messages.add(message);
-            }
+            JSONArray userList = (JSONArray) jsonObject.get("users");
+            for (JSONObject jsonUser : (Iterable<JSONObject>) userList) {
+                String name = (String) jsonUser.get("name");
+                String control = (String) jsonUser.get("control");
+                JSONArray messageList = (JSONArray) jsonUser.get("messages");
+                List<String> messages = new ArrayList<>();
+                for (String message : (Iterable<String>) messageList) {
+                    messages.add(message);
+                }
 
-            User user = new User(name, control, messages);
-            bank.addUser(user);
+                User user = new User(name, control, messages);
+                bank.addUser(user);
+                System.out.println(name+"|"+control+"|"+messages.size());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
