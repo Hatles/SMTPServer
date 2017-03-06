@@ -1,6 +1,10 @@
 package com.method;
 
+import com.stockage.Stockage;
+import com.stockage.User;
+
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -17,6 +21,30 @@ public class StatMethod extends SMTPMethod {
         if (communication.getName().isEmpty())
             return false;
 
+        try {
+            User user = Stockage.getInstance().getUserBank().getUser(communication.getName());
+            List<String> messages = user.getMessages();
+            int length = 0;
+            for(String message : messages){
+                length+=message.getBytes(StandardCharsets.UTF_8).length;
+            }
+            sendOK(messages.size() + " " + length);
+        } catch (IOException e) {
+            try {
+                sendERR("");
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } catch (Exception e){
+            try {
+                sendERR("");
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            return false;
+        }
 
         return false;
     }

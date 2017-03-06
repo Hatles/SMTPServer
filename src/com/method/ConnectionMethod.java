@@ -30,8 +30,18 @@ public class ConnectionMethod extends SMTPMethod
     @Override
     public boolean processCommand(List<String> lines)
     {
-        if(communication.isConnected() || tryNumber >= tryLimit)
+        if(communication.isConnected())
             return false;
+        if(tryNumber > tryLimit) {
+            try {
+                sendERR("authentification failure server signing off");
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            communication.close();
+            return false;
+        }
+
         tryNumber++;
         for(String line : lines)
         {
@@ -51,15 +61,17 @@ public class ConnectionMethod extends SMTPMethod
                     for(String message : messages){
                         length+=message.getBytes(StandardCharsets.UTF_8).length;
                     }
-                    sendOK("maildrop has " + messages.size() +" message ("+ length +" octets)");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
+                    communication.clientConnected(name);
+                    sendOK("maildrop has " + messages.size() +" message(s) ("+ length +" octets)");
                 } catch (Exception e){
-
+                    try {
+                        sendERR("authentification failure more than "+ tryNumber +" try");
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+                    return false;
                 }
 
-                communication.clientConnected(name);
                 return true;
             }
         }

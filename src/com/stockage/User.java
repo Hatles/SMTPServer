@@ -44,6 +44,6 @@ public class User
 
     public String getMessage(int i)
     {
-        return this.messages.get(i);
+        return this.messages.get(i-1);
     }
 }
