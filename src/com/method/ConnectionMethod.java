@@ -1,8 +1,11 @@
 package com.method;
 
 import com.SMTPCommunication;
+import com.stockage.Stockage;
+import com.stockage.User;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -40,12 +43,22 @@ public class ConnectionMethod extends SMTPMethod
                 String name = apop[1];
                 if(name.isEmpty())
                     return false;
+
                 try {
-                    sendOK("maildrop has 1 message (369 octets)");
+                    User user = Stockage.getInstance().getUserBank().getUser(name);
+                    List<String> messages = user.getMessages();
+                    int length = 0;
+                    for(String message : messages){
+                        length+=message.getBytes(StandardCharsets.UTF_8).length;
+                    }
+                    sendOK("maildrop has " + messages.size() +" message ("+ length +" octets)");
                 } catch (IOException e) {
                     e.printStackTrace();
                     return false;
+                } catch (Exception e){
+
                 }
+
                 communication.clientConnected(name);
                 return true;
             }

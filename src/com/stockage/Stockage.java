@@ -28,7 +28,7 @@ public class Stockage
 
     protected Stockage()
     {
-        JSONParser parser = new JSONParser();
+         parser = new JSONParser();
     }
 
     public void setServer(Server server)
