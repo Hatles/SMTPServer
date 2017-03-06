@@ -2,6 +2,7 @@ package com;
 
 import com.factory.CommunicationFactory;
 import com.method.Method;
+import com.stockage.Stockage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -26,6 +27,7 @@ public class SMTPCommunication extends CommunicationRunnable
         methods = new ArrayList<>();
         connected = false;
         factory.buildCommunication(this);
+        Stockage.getInstance().setServer(server);
     }
 
     @Override
