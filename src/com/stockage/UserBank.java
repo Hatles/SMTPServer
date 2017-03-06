@@ -23,8 +23,17 @@ public class UserBank {
         this.users = users;
     }
 
-    public User getUser(String name)
+    public void addUser(User user)
     {
-        return users.get(name);
+        this.users.add(user);
+    }
+
+    public User getUser(String name) throws Exception {
+        for(User user : users)
+        {
+            if(user.getName().equals(name))
+                return user;
+        }
+        throw new Exception("User "+name+" doesn't have account.");
     }
 }

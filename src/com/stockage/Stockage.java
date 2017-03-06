@@ -6,7 +6,6 @@ import org.json.simple.parser.*;
 
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,8 +36,9 @@ public class Stockage
         this.server = server;
     }
 
-    public JSONObject getDatas()
+    public UserBank getUserBank()
     {
+        UserBank bank = new UserBank();
         try {
 
             Object obj = parser.parse(new FileReader(server.getRootDir()));
@@ -54,9 +54,12 @@ public class Stockage
             }
 
             User user = new User(name, control, messages);
+            bank.addUser(user);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return bank;
     }
 }

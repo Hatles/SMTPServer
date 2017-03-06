@@ -41,4 +41,9 @@ public class User
     public void setMessages(List<String> messages) {
         this.messages = messages;
     }
+
+    public String getMessage(int i)
+    {
+        return this.messages.get(i);
+    }
 }
