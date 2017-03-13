@@ -154,7 +154,7 @@ public class Utils
 	{
 	    String msg = "";
         for (Header header : message.getHeaders()) {
-            msg += header.getTitle() + "" + header.getValue() + "\r\n";
+            msg += header.getTitle() + ": " + header.getValue() + "\r\n";
         }
 
         msg += message.getMessage() + "\r\n";
