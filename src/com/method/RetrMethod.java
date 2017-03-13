@@ -1,4 +1,6 @@
 package com.method;
+import com.Utils;
+import com.stockage.Message;
 import com.stockage.Stockage;
 import com.stockage.User;
 
@@ -36,9 +38,10 @@ public class RetrMethod extends SMTPMethod {
                 sendError("no such message");
                 return false;
             }
-            String message = user.getMessage(num);
-            writeLine("+OK "+message.length()+" octets");
-            send(message);
+            Message message = user.getMessage(num);
+            String msg = Utils.buildMessage(message);
+            writeLine("+OK "+msg.length()+" octets");
+            send(msg);
         } catch (IOException e) {
             try {
                 sendERR("");

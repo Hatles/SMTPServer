@@ -1,5 +1,7 @@
 package com;
 import com.method.Method;
+import com.stockage.Header;
+import com.stockage.Message;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -147,4 +149,16 @@ public class Utils
 		String[] words = lines.get(0).split(" ");
 		return words[0].toUpperCase();
     }
+
+    public static String buildMessage(Message message)
+	{
+	    String msg = "";
+        for (Header header : message.getHeaders()) {
+            msg += header.getTitle() + "" + header.getValue() + "\r\n";
+        }
+
+        msg += message.getMessage() + "\r\n";
+        msg += ".\r\n";
+        return msg;
+	}
 }

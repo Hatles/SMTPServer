@@ -50,14 +50,22 @@ public class Stockage
                 String name = (String) jsonUser.get("name");
                 String control = (String) jsonUser.get("control");
                 JSONArray messageList = (JSONArray) jsonUser.get("messages");
-                List<String> messages = new ArrayList<>();
-                for (String message : (Iterable<String>) messageList) {
-                    messages.add(message.replaceAll("<CR>", "\r").replaceAll("<LF>", "\n"));
+                List<Message> messages = new ArrayList<>();
+                for (JSONObject jsonMessage : (Iterable<JSONObject>) messageList) {
+                    String message = (String) jsonMessage.get("message");
+                    JSONArray headersList = (JSONArray) jsonMessage.get("headers");
+                    List<Header> headers = new ArrayList<>();
+                    for (JSONObject jsonHeader : (Iterable<JSONObject>) headersList) {
+                        String title = (String) jsonHeader.get("title");
+                        String value = (String) jsonHeader.get("value");
+                        headers.add(new Header(title, value));
+                    }
+                    messages.add(new Message(headers, message.replaceAll("<CR>", "\r").replaceAll("<LF>", "\n")));
                 }
 
                 User user = new User(name, control, messages);
                 bank.addUser(user);
-                System.out.println(name+"|"+control+"|"+messages.size());
+//                System.out.println(name+"|"+control+"|"+messages.size());
             }
 
         } catch (Exception e) {

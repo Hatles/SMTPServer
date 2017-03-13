@@ -1,5 +1,7 @@
 package com.method;
 
+import com.Utils;
+import com.stockage.Message;
 import com.stockage.Stockage;
 import com.stockage.User;
 
@@ -23,10 +25,10 @@ public class StatMethod extends SMTPMethod {
 
         try {
             User user = Stockage.getInstance().getUserBank().getUser(communication.getName());
-            List<String> messages = user.getMessages();
+            List<Message> messages = user.getMessages();
             int length = 0;
-            for(String message : messages){
-                length+=message.getBytes(StandardCharsets.UTF_8).length;
+            for(Message message : messages){
+                length+= Utils.buildMessage(message).getBytes(StandardCharsets.UTF_8).length;
             }
             sendOK(messages.size() + " " + length);
         } catch (IOException e) {

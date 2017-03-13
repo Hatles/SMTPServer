@@ -1,6 +1,8 @@
 package com.method;
 
 import com.SMTPCommunication;
+import com.Utils;
+import com.stockage.Message;
 import com.stockage.Stockage;
 import com.stockage.User;
 
@@ -56,10 +58,10 @@ public class ConnectionMethod extends SMTPMethod
 
                 try {
                     User user = Stockage.getInstance().getUserBank().getUser(name);
-                    List<String> messages = user.getMessages();
+                    List<Message> messages = user.getMessages();
                     int length = 0;
-                    for(String message : messages){
-                        length+=message.getBytes(StandardCharsets.UTF_8).length;
+                    for(Message message : messages){
+                        length+= Utils.buildMessage(message).getBytes(StandardCharsets.UTF_8).length;
                     }
                     communication.clientConnected(name);
                     sendOK("maildrop has " + messages.size() +" message(s) ("+ length +" octets)");

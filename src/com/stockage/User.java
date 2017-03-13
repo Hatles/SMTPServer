@@ -9,9 +9,9 @@ public class User
 {
     private String  name;
     private String control;
-    private List<String> messages;
+    private List<Message> messages;
 
-    public User(String name, String control, List<String> messages)
+    public User(String name, String control, List<Message> messages)
     {
         this.name = name;
         this.control = control;
@@ -34,16 +34,21 @@ public class User
         this.control = control;
     }
 
-    public List<String> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<String> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
-    public String getMessage(int i)
+    public Message getMessage(int i)
     {
         return this.messages.get(i-1);
+    }
+
+    public void addMessage(Message message)
+    {
+        this.messages.add(message);
     }
 }
