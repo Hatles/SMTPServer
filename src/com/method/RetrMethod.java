@@ -34,7 +34,7 @@ public class RetrMethod extends SMTPMethod {
         }
         try {
             User user = Stockage.getInstance().getUserBank().getUser(communication.getName());
-            if(!(user.getMessages().size()<=num && num>0)){
+            if(user.getMessages().size()<num || num<=0){
                 sendError("no such message");
                 return false;
             }
