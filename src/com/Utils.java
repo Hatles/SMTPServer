@@ -157,6 +157,7 @@ public class Utils
             msg += header.getTitle() + ": " + header.getValue() + "\r\n";
         }
 
+        msg += "\r\n";
         msg += message.getMessage() + "\r\n";
         msg += ".\r\n";
         return msg;

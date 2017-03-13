@@ -33,7 +33,7 @@ public class SMTPCommunication extends CommunicationRunnable
     @Override
     protected void onStart() {
         try {
-            this.send(this.getServer().getServerName());
+            this.send("+OK POP3 server ready "+this.getServer().getServerName());
         } catch (IOException e) {
             log(e.getMessage());
             e.printStackTrace();
