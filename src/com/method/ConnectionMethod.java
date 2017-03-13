@@ -34,7 +34,7 @@ public class ConnectionMethod extends SMTPMethod
     {
         if(communication.isConnected())
             return false;
-        if(tryNumber > tryLimit) {
+        if(tryNumber >=tryLimit) {
             try {
                 sendERR("authentification failure server signing off");
             } catch (IOException ioe) {
@@ -50,11 +50,23 @@ public class ConnectionMethod extends SMTPMethod
             if(line.toUpperCase().contains("APOP"))
             {
                 String[] apop = line.split(" ");
-                if(apop.length != 2)
+                if(apop.length != 2) {
+                    try {
+                        sendERR("authentification failure more than "+ tryNumber +" try");
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
                     return false;
+                }
                 String name = apop[1];
-                if(name.isEmpty())
+                if(name.isEmpty()){
+                    try {
+                        sendERR("authentification failure more than "+ tryNumber +" try");
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
                     return false;
+                }
 
                 try {
                     User user = Stockage.getInstance().getUserBank().getUser(name);
