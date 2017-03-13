@@ -27,13 +27,13 @@ public class RetrMethod extends SMTPMethod {
         try {
             num = Integer.valueOf(retr[1]);
         } catch (Exception e) {
-            sendError("");
+            sendError("no such message");
             return false;
         }
         try {
             User user = Stockage.getInstance().getUserBank().getUser(communication.getName());
             if(!(user.getMessages().size()>num && num>0)){
-                sendError("");
+                sendError("no such message");
                 return false;
             }
             String message = user.getMessage(num);
