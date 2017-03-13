@@ -58,9 +58,22 @@ abstract class CommunicationRunnable extends ServerRunnable implements Communica
             List<String> lines = new ArrayList<String>();
 
             log("waiting message");
-            while((line = in.readLine()) != null && line.length() > 0)
+            boolean reading = true;
+            while(reading)
             {
-                lines.add(line);
+                line = in.readLine();
+
+                if(line == null)
+                {
+                    reading = false;
+                    this.stop();
+                }
+                else if(line.length() > 0)
+                {
+                    lines.add(line);
+                }
+                else
+                    reading = false;
             }
 
             if(lines.size() > 0)

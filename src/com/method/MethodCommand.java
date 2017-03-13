@@ -21,7 +21,7 @@ public abstract class MethodCommand extends Method
     public boolean process(String command, List<String> lines)
     {
         log("incomming command : "+command);
-        log("mtethod command : "+this.command);
+        log("method command : "+this.command);
         if(command.equals(this.command))
         {
             if(!this.processCommand(lines))
