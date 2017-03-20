@@ -6,9 +6,11 @@ import com.stockage.Stockage;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by kifkif on 15/02/2017.
@@ -16,6 +18,7 @@ import java.util.List;
 public class SMTPCommunication extends CommunicationRunnable
 {
     private String name;
+    private String timestamp;
     private boolean connected;
 
     private Method connectionMethod;
@@ -33,7 +36,8 @@ public class SMTPCommunication extends CommunicationRunnable
     @Override
     protected void onStart() {
         try {
-            this.send("+OK POP3 server ready "+this.getServer().getServerName());
+            timestamp=this.createTimestamp();
+            this.send("+OK POP3 server ready "+this.getServer().getServerName()+" "+timestamp);
         } catch (IOException e) {
             log(e.getMessage());
             e.printStackTrace();
@@ -48,6 +52,12 @@ public class SMTPCommunication extends CommunicationRunnable
             this.processConnecting(command, lines);
         else
             this.processRequest(command,  lines);
+    }
+
+    private String createTimestamp()
+    {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return "<"+ Double.toString(Math.random()*9999)+"."+timestamp.getTime() + "@"+server.getServerName()+">";
     }
 
     private void processConnecting(String command, List<String> lines)
@@ -96,6 +106,9 @@ public class SMTPCommunication extends CommunicationRunnable
 
     public String getName() {
         return name;
+    }
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public void setName(String name) {
