@@ -36,7 +36,7 @@ public class SMTPCommunication extends CommunicationRunnable
     @Override
     protected void onStart() {
         try {
-            timestamp= Utils.createTimestamp();
+            timestamp= Utils.createTimestamp(server.getServerName());
             this.send("+OK POP3 server ready "+this.getServer().getServerName()+" "+timestamp);
         } catch (IOException e) {
             log(e.getMessage());

@@ -164,7 +164,7 @@ public class Utils
         return msg;
 	}
 
-	public  String bytesToHex(byte[] bytes) {
+	public static String bytesToHex(byte[] bytes) {
 		char[] hexArray = "0123456789ABCDEF".toCharArray();
 		char[] hexChars = new char[bytes.length * 2];
 		for ( int j = 0; j < bytes.length; j++ ) {
@@ -175,9 +175,9 @@ public class Utils
 		return new String(hexChars);
 	}
 
-	private String createTimestamp()
+	public static String createTimestamp(String serverName)
 	{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		return "<"+ Double.toString(Math.random()*9999)+"."+timestamp.getTime() + "@"+server.getServerName()+">";
+		return "<"+ Double.toString(Math.random()*9999)+"."+timestamp.getTime() + "@"+serverName+">";
 	}
 }
