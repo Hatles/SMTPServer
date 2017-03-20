@@ -4,6 +4,7 @@ import com.stockage.Header;
 import com.stockage.Message;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -161,5 +162,22 @@ public class Utils
         msg += message.getMessage() + "\r\n";
         msg += ".\r\n";
         return msg;
+	}
+
+	public  String bytesToHex(byte[] bytes) {
+		char[] hexArray = "0123456789ABCDEF".toCharArray();
+		char[] hexChars = new char[bytes.length * 2];
+		for ( int j = 0; j < bytes.length; j++ ) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = hexArray[v >>> 4];
+			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+		}
+		return new String(hexChars);
+	}
+
+	private String createTimestamp()
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		return "<"+ Double.toString(Math.random()*9999)+"."+timestamp.getTime() + "@"+server.getServerName()+">";
 	}
 }
