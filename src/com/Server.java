@@ -49,7 +49,7 @@ public class Server extends Observable
 			//socket = new ServerSocket(port);
 			SSLServerSocketFactory fab = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 			socket = fab.createServerSocket(port);
-			((SSLServerSocket)socket).setEnabledCipherSuites(enabledCipherSuites);
+			((SSLServerSocket)socket).setEnabledCipherSuites(((SSLServerSocket)socket).getSupportedCipherSuites());
             ((SSLServerSocket)socket).setNeedClientAuth(false);
 			Thread t = new Thread(accept);
 			t.setDaemon(true);
