@@ -10,6 +10,9 @@ import java.util.List;
 
 import observer.Observable;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+
 public class Server extends Observable
 {
 	private int port;
@@ -41,7 +44,10 @@ public class Server extends Observable
 	{
 		try 
 		{
-			socket = new ServerSocket(port);
+			//socket = new ServerSocket(port);
+			SSLServerSocketFactory fab= (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+			socket=(SSLServerSocket) fab.createServerSocket(port);
+
 			Thread t = new Thread(accept);
 			t.setDaemon(true);
 			t.start();
