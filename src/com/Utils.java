@@ -178,6 +178,6 @@ public class Utils
 	public static String createTimestamp(String serverName)
 	{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		return "<"+ Double.toString(Math.random()*9999)+"."+timestamp.getTime() + "@"+serverName+">";
+		return "<"+ Double.toString(((int)Math.random()*9999))+"."+timestamp.getTime() + "@"+serverName+">";
 	}
 }
