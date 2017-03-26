@@ -26,7 +26,7 @@ import observer.Observer;
 public class JServer extends Application {
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    private int port = 25;
+    private int port = 1024;
 
 	@Override
 	public void start(Stage primaryStage) {

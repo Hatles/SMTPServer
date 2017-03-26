@@ -59,6 +59,8 @@ abstract class CommunicationRunnable extends ServerRunnable implements Communica
 
             log("waiting message");
             boolean reading = true;
+            int nullLine = 0;
+            boolean head = true;
             while(reading)
             {
                 line = in.readLine();
@@ -71,9 +73,16 @@ abstract class CommunicationRunnable extends ServerRunnable implements Communica
                 else if(line.length() > 0)
                 {
                     lines.add(line);
+                    nullLine = 0;
+                    head = false;
                 }
-                else
-                    reading = false;
+                else if(!head)
+                {
+                    nullLine++;
+                    if(nullLine > 1)
+                        reading = false;
+                    else lines.add(line);
+                }
             }
 
             if(lines.size() > 0)
@@ -164,6 +173,7 @@ abstract class CommunicationRunnable extends ServerRunnable implements Communica
     {
         if(message != null && !message.equals(""))
             writeLine(message);
+        writeLine("");
         writeLine("");
         out.flush();
         log("sending message");
