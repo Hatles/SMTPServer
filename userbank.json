@@ -2,7 +2,7 @@
   "users": [
     {
       "name": "toto",
-      "control": "tanstaaf",
+      "control": "password",
       "messages": [
         {
           "headers": [
